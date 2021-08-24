@@ -1,5 +1,20 @@
+let fauna = require('faunadb'),
+  q = fauna.query;
+
+let client = new fauna.Client({
+  secret: process.env.FAUNA_SECRET,
+  domain: process.env.FAUNA_DOMAIN || 'db.fauna.com',
+});
+
 exports.handler = async function http (req) {
   console.log('Begin API called')
+  let message = await client.query(
+    q.Call(
+      "get-message",
+      ["Begin"]
+    )
+  );
+
   return {
     headers: {
       'content-type': 'application/json; charset=utf8',
@@ -7,7 +22,7 @@ exports.handler = async function http (req) {
     },
     statusCode: 200,
     body: JSON.stringify({
-      msg: 'Hello from Svelte + your Begin API!'
+      msg: message
     })
   }
 }
