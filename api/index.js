@@ -11,7 +11,7 @@ exports.handler = async function http (req) {
   let message = await client.query(
     q.Call(
       "get-message",
-      ["Begin"]
+      "Begin"
     )
   );
 
